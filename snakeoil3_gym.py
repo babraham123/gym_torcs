@@ -341,6 +341,20 @@ class ServerState():
         'track',
         'trackPos',
         'angle',
+        'c_angle', # affordances
+        'toMarking_L',
+        'toMarking_M',
+        'toMarking_R',
+        'dist_L',
+        'dist_R',
+        'toMarking_LL',
+        'toMarking_ML',
+        'toMarking_MR',
+        'toMarking_RR',
+        'dist_LL',
+        'dist_MM',
+        'dist_RR',
+        'fast',
         ]
 
         #for k in sorted(self.d): # Use this to get all sensors.

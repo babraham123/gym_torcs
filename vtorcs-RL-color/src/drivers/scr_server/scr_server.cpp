@@ -559,12 +559,7 @@ drive(int index, tCarElt* car, tSituation *s)
     // else {
 
     // drive on the road with 3 lanes
-
-    car->ctrl.gear = getGear(car);
-
-    car->ctrl.steer = *psteerCmd;
-    car->ctrl.accelCmd = *paccelCmd;
-    car->ctrl.brakeCmd = *pbrakeCmd;
+    // car->ctrl.gear = getGear(car);
 
     const float lane_width=4.0;
     const float half_lane_width=lane_width/2;

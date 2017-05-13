@@ -162,8 +162,8 @@ visionUpdate()
 //      (GLvoid*)ReInfo->vision->img
     );
 
-
     bool grayscale = true;
+
     if(grayscale)
     {
         // GIUSE - TODO: that was only a quick hack, bring them out of here!!
@@ -178,8 +178,8 @@ visionUpdate()
             {
                 avg += RGBscales[channel] * tmpRGBimg[3*pixel+channel];
             }
+            ReInfo->vision->img[pixel] = (unsigned char) avg;
         }
-        ReInfo->vision->img = (unsigned char) avg;
     }
     else {
         // JAN: a hack of a hack: RGB -> HSB (using just the S value)
@@ -202,7 +202,6 @@ visionUpdate()
         }
             */
 
-        double avg,r,g,b,min,max,s,delta;
         for (int pixel=0; pixel < 3*GIUSEIMGSIZE*GIUSEIMGSIZE; pixel++)
         {
             ReInfo->vision->img[pixel] = (unsigned char) (tmpRGBimg[pixel]);
@@ -778,18 +777,16 @@ ReStart(void)
       if( GIUSEIMGSIZE > 0 )
         ReInfo->vision->sw = ReInfo->vision->sh = ReInfo->vision->vw = ReInfo->vision->vh = GIUSEIMGSIZE;
 
-      car->vision->imgcar->vision->img = 3*ReInfo->vision->vw * ReInfo->vision->vh; // for RGB
-      // ReInfo->vision->img = (unsigned char*)malloc(ReInfo->vision->imgsize * sizeof(unsigned char));
-      ReInfo->vision->img = (unsigned char*)malloc(GIUSEIMGSIZE * GIUSEIMGSIZE * sizeof(unsigned char));
+      ReInfo->vision->imgsize = 1 * ReInfo->vision->vw * ReInfo->vision->vh; // for RGB
+      ReInfo->vision->img = (unsigned char*)malloc(ReInfo->vision->imgsize * sizeof(unsigned char));
       if (ReInfo->vision->img == NULL)  exit(-1); // malloc fail
 
       // GIUSE - let's avoid zero-images if sent before grabbing the next frame
-      // memset(ReInfo->vision->img, 1, ReInfo->vision->imgsize * sizeof(unsigned char));
-      memset(ReInfo->vision->img, 1, GIUSEIMGSIZE * GIUSEIMGSIZE * sizeof(unsigned char));
-      memset(tmpRGBimg, 1, 3 * GIUSEIMGSIZE * GIUSEIMGSIZE * sizeof(unsigned char)); // always 3 colors
+      memset(ReInfo->vision->img, 1, ReInfo->vision->imgsize * sizeof(unsigned char));
+      memset(tmpRGBimg, 1, 3 * GIUSEIMGSIZE * GIUSEIMGSIZE * sizeof(unsigned char));
       memset(RGBscales, 1, 3 * sizeof(double));
 
-      printf( "sw %d - sh %d - vw %d - vh %d - imgsize %d\n", ReInfo->vision->sw, ReInfo->vision->sh, ReInfo->vision->vw, ReInfo->vision->vh, car->vision->imgcar->vision->img);
+      printf( "sw %d - sh %d - vw %d - vh %d - imgsize %d\n", ReInfo->vision->sw, ReInfo->vision->sh, ReInfo->vision->vw, ReInfo->vision->vh, ReInfo->vision->imgsize);
 
       visionUpdate(); // put first image
     }
